@@ -6,6 +6,48 @@ const client = new Client({
 // const client = new Client('postgres://localhost:3000/sol');
 
 
+const express = require('express');
+
+const app = express();
+
+// 👇️ handle uncaught exceptions
+process.on('uncaughtException', function (err) {
+  console.log(err);
+});
+
+app.get('/', (req, res) => {
+  res.json('Hello World!');
+});
+
+const port = 3000;
+app.listen(port, () => {
+  console.log(`Example app listening on port ${port}`);
+});
+
+throw new Error('An error occurred');
+
+
+async function getData() {
+  try {
+    const response = await fetch('http://127.0.0.1:3000');
+
+    if (!response.ok) {
+      throw new Error(`Error! status: ${response.status}`);
+    }
+
+    const result = await response.json();
+    console.log(result)
+    return result;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+getData()
+
+
+
+
 /**
  * USER Methods
  */

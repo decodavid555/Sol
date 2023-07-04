@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { registerUser, fetchMe } from "../api/auth";
+import { registerUser } from "../api/auth";
 import { useNavigate } from "react-router-dom";
 import "../style/Register.css";
 
@@ -9,31 +9,30 @@ const Register = ({ setUser, setToken }) => {
   const [email, setEmail] = useState("");
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    const getMe = async () => {
-      const data = await fetchMe(token);
-      setUser(data);
-    };
-    if (token) {
-      getMe();
-    }
-  }, []);
+  // useEffect(() => {
+  //   const token = localStorage.getItem("token");
+  //   const getMe = async () => {
+  //     const data = await fetchMe(token);
+  //     setUser(data);
+  //   };
+  //   if (token) {
+  //     getMe();
+  //   }
+  // }, []);
 
   const handleClick = async (e) => {
     e.preventDefault();
     console.log(username, password, email);
     const token = await registerUser(username, password, email);
-    if(token === undefined){
-      localStorage.removeItem("token")
-      navigate("/login")
+    if (token === undefined) {
+      localStorage.removeItem("token");
+      navigate("/login");
+    } else {
+      setToken(token);
+      localStorage.setItem("token", token);
+      navigate("/");
     }
-    else{
-    setToken(token)
-    localStorage.setItem("token", token)
-    navigate("/")
-    }
-  }
+  };
 
   return (
     <div>
@@ -80,7 +79,7 @@ const Register = ({ setUser, setToken }) => {
           </div>
         </div>
         <div class="control block-cube block-input">
-        <input
+          <input
             value={email}
             type="email"
             required
@@ -114,13 +113,11 @@ const Register = ({ setUser, setToken }) => {
           <div class="bg">
             <div class="bg-inner"></div>
           </div>
-          <div class='text'>
-      Register
-    </div>
+          <div class="text">Register</div>
         </button>
       </form>
     </div>
   );
 };
-  
+
 export default Register;

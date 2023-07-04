@@ -88,7 +88,7 @@ const {
         location: 'Port Vernon, Endymion'
       });
       await createUser({ 
-        username: 'Braniac1M',
+        username: 'Brainiac5',
         password: 'worldcollector',
         name: 'Vril Dox',
         location: 'Colu'

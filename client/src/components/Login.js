@@ -1,13 +1,12 @@
-import React from "react";
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { login } from "../api/auth";
+import registerUser  from "../api/auth";
 import "../style/Login.css";
 
-const Login = ({setToken}) => {
+const Login = ({ setToken }) => {
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -19,19 +18,18 @@ const Login = ({setToken}) => {
       getMe();
     }
   }, []);
-  
+
   const handleLogin = async () => {
     const token = await login(username, password);
-    if(token === undefined){
-      localStorage.removeItem("token")
-      navigate("/login")
+    if (token === undefined) {
+      localStorage.removeItem("token");
+      navigate("/login");
+    } else {
+      setToken(token);
+      localStorage.setItem("token", token);
+      navigate("/");
     }
-    else{
-    setToken(token)
-    localStorage.setItem("token", token)
-    navigate("/")
-    }
-  }
+  };
 
   return (
     <div>
@@ -93,9 +91,7 @@ const Login = ({setToken}) => {
           <div class="bg">
             <div class="bg-inner"></div>
           </div>
-          <div class='text'>
-      Login
-    </div>
+          <div class="text">Login</div>
         </button>
       </form>
     </div>
